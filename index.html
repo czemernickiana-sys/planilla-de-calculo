@@ -16,11 +16,11 @@
             background: #fff1f2;
             padding: 20px;
         }
-      .container {
+.container {
             max-width: 1900px;
             margin: 0 auto;
         }
-      .card {
+.card {
             background: white;
             border-radius: 12px;
             padding: 20px;
@@ -35,12 +35,7 @@
             font-size: 38px;
             margin-bottom: 20px;
         }
-        h2 {
-            color: #1f2937;
-            font-size: 16px;
-            margin-bottom: 15px;
-        }
-      .config-box {
+.config-box {
             background: #fce7f3;
             padding: 16px;
             border-radius: 8px;
@@ -51,14 +46,14 @@
             align-items: center;
             flex-wrap: wrap;
         }
-      .config-item label {
+.config-item label {
             display: block;
             font-size: 13px;
             color: #831843;
             font-weight: bold;
             margin-bottom: 4px;
         }
-      .config-item input {
+.config-item input {
             width: 150px;
             padding: 8px;
             border: 1px solid #f9a8d4;
@@ -66,14 +61,14 @@
             font-size: 14px;
             font-weight: bold;
         }
-        input, textarea {
+        input {
             width: 100%;
             padding: 6px;
             border: 1px solid #f9a8d4;
             border-radius: 6px;
             font-size: 12px;
         }
-        input:focus, textarea:focus {
+        input:focus {
             outline: none;
             border-color: #ec4899;
             background: #fef3c7;
@@ -98,25 +93,25 @@
         button:hover {
             background: #db2777;
         }
-      .btn-verde {
+.btn-verde {
             background: #22c55e;
         }
-      .btn-verde:hover {
+.btn-verde:hover {
             background: #16a34a;
         }
-      .btn-azul {
+.btn-azul {
             background: #3b82f6;
         }
-      .btn-azul:hover {
+.btn-azul:hover {
             background: #2563eb;
         }
-      .btn-rojo {
+.btn-rojo {
             background: #ef4444;
         }
-      .btn-rojo:hover {
+.btn-rojo:hover {
             background: #dc2626;
         }
-      .botones-accion {
+.botones-accion {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
@@ -126,7 +121,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 11px;
-            min-width: 2200px;
+            min-width: 2100px;
         }
         th {
             background: #f9a8d4;
@@ -155,38 +150,52 @@
         td input:focus {
             background: #fef3c7;
         }
-      .col-calculo {
+.col-calculo {
             background: #fdf2f8;
         }
-      .col-calculo input {
+.col-calculo input {
             font-weight: bold;
             color: #be185d;
         }
-      .col-usd {
+.col-envio-maritimo {
             background: #e0f2fe;
+            border-left: 3px solid #0ea5e9;
+            border-right: 3px solid #0ea5e9;
         }
-      .col-bs {
+.col-envio-maritimo input {
+            font-weight: bold;
+            color: #0369a1;
+        }
+.col-usd {
+            background: #dbeafe;
+        }
+.col-bs {
             background: #dcfce7;
         }
-      .col-medida {
+.col-ars {
             background: #fef3c7;
         }
-      .col-mini {
-            width: 70px;
+.col-paso-fundamental {
+            background: #fef9c3;
+            border: 2px solid #facc15;
         }
-      .col-med {
+.col-paso-fundamental input {
+            font-weight: bold;
+            color: #a16207;
+        }
+.col-med {
             width: 80px;
         }
-      .col-link {
+.col-link {
             width: 150px;
         }
-      .col-desc {
+.col-desc {
             width: 180px;
         }
-      .col-acciones {
+.col-acciones {
             width: 70px;
         }
-      .btn-mini {
+.btn-mini {
             padding: 3px 6px;
             font-size: 10px;
             margin: 1px;
@@ -198,14 +207,17 @@
         <h1>ANITAS STORE - CALCULADORA IMPORTACIÓN</h1>
 
         <div class="card">
-            <h2>⚙️ CONFIGURACIÓN</h2>
             <div class="config-box">
                 <div class="config-item">
-                    <label>PRECIO DEL DÓLAR BOB (Bs)</label>
+                    <label>PRECIO DÓLAR BOLIVIA (Bs)</label>
                     <input id="dolar_bob" type="text" value="10,00" oninput="recalcularTodo()">
                 </div>
+                <div class="config-item">
+                    <label>PRECIO DÓLAR ARGENTINA (ARS)</label>
+                    <input id="dolar_ars" type="text" value="1500,00" oninput="recalcularTodo()">
+                </div>
                 <div class="botones-accion">
-                    <button class="btn-verde" onclick="agregarFila()">+ Agregar Fila</button>
+                    <button class="btn-verde" onclick="agregarFila()">+ Agregar Producto</button>
                     <button class="btn-azul" onclick="exportarExcel()">📊 Exportar Excel</button>
                     <button class="btn-azul" onclick="copiarWhatsApp()">📱 Copiar WhatsApp</button>
                     <button class="btn-rojo" onclick="limpiarTodo()">🗑️ Limpiar Todo</button>
@@ -222,19 +234,20 @@
                         <th class="col-med">ALTO (cm)</th>
                         <th class="col-calculo col-med">PIEZAS TOTALES</th>
                         <th class="col-med">PRECIO FLETE USD</th>
-                        <th class="col-calculo col-med">ENVÍO X PROD M3</th>
+                        <th class="col-envio-maritimo col-med">ENVÍO X PROD M3</th>
                         <th class="col-desc">DESCRIPCIÓN</th>
                         <th class="col-link">LINK</th>
-                        <th class="col-med">PRECIO USD ART</th>
-                        <th class="col-med">ENVÍO DOMÉSTICO</th>
-                        <th class="col-med">DOCENA</th>
-                        <th class="col-calculo col-med">PROD+ENV DOM</th>
-                        <th class="col-calculo col-med">15% COMISIÓN</th>
-                        <th class="col-calculo col-med">TOTAL</th>
-                        <th class="col-calculo col-med">ENVÍO MARÍTIMO</th>
-                        <th class="col-calculo col-usd">TOTAL FINAL USDX12</th>
-                        <th class="col-calculo col-bs">PRECIO/DOCENA</th>
-                        <th class="col-calculo col-bs">PRECIO/UNIDAD</th>
+                        <th class="col-paso-fundamental col-med">PRECIO USD ART</th>
+                        <th class="col-paso-fundamental col-med">COSTO DOCENA USD</th>
+                        <th class="col-paso-fundamental col-med">ENVÍO DOMÉSTICO USD</th>
+                        <th class="col-calculo col-med">PROD+ENV DOM USD</th>
+                        <th class="col-calculo col-med">15% COMISIÓN USD</th>
+                        <th class="col-calculo col-med">TOTAL USD</th>
+                        <th class="col-envio-maritimo col-med">ENVÍO MARÍTIMO USD</th>
+                        <th class="col-calculo col-bs">PRECIO/DOCENA Bs</th>
+                        <th class="col-calculo col-bs">PRECIO/UNIDAD Bs</th>
+                        <th class="col-calculo col-ars">PRECIO/DOC ARS</th>
+                        <th class="col-calculo col-ars">PRECIO/UNID ARS</th>
                         <th class="col-acciones">X</th>
                     </tr>
                 </thead>
@@ -246,8 +259,8 @@
 
     <script>
         let productos = [];
-        const STORAGE_KEY = 'anitas_calc_v1';
-        const CONFIG_KEY = 'anitas_config_v1';
+        const STORAGE_KEY = 'anitas_calc_v10';
+        const CONFIG_KEY = 'anitas_config_v10';
 
         window.onload = function() {
             cargarConfig();
@@ -259,7 +272,8 @@
 
         function guardarConfig() {
             const config = {
-                dolar_bob: document.getElementById('dolar_bob').value
+                dolar_bob: document.getElementById('dolar_bob').value,
+                dolar_ars: document.getElementById('dolar_ars').value
             };
             localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
         }
@@ -267,19 +281,30 @@
         function cargarConfig() {
             const config = JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}');
             if (config.dolar_bob) document.getElementById('dolar_bob').value = config.dolar_bob;
+            if (config.dolar_ars) document.getElementById('dolar_ars').value = config.dolar_ars;
         }
 
         function parsearNum(valor) {
             if (!valor) return 0;
-            return parseFloat(valor.toString().replace(',', '.')) || 0;
+            // Quita símbolo de moneda y espacios antes de parsear
+            const limpio = valor.toString().replace(/[^\d,.-]/g, '').replace(',', '.');
+            return parseFloat(limpio) || 0;
         }
 
         function formatoNum(num, decimales = 2) {
             return num.toFixed(decimales).replace('.', ',');
         }
 
+        function formatoMoneda(num, decimales = 2, simbolo = '') {
+            return formatoNum(num, decimales) + ' ' + simbolo;
+        }
+
+        function generarId() {
+            return 'p' + Date.now() + Math.floor(Math.random() * 1000);
+        }
+
         function agregarFila(datos = null) {
-            const id = Date.now() + Math.random();
+            const id = generarId();
             const producto = datos || {
                 id: id,
                 largo: '',
@@ -289,8 +314,7 @@
                 descripcion: '',
                 link: '',
                 precio_usd: '',
-                envio_dom: '',
-                docena: ''
+                envio_dom: ''
             };
             productos.push(producto);
             renderizarTabla();
@@ -325,6 +349,7 @@
             const precio_usd = parsearNum(prod.precio_usd);
             const envio_dom = parsearNum(prod.envio_dom);
             const dolar_bob = parsearNum(document.getElementById('dolar_bob').value);
+            const dolar_ars = parsearNum(document.getElementById('dolar_ars').value);
 
             // 1. PIEZAS TOTALES por m³
             let piezas_totales = 0;
@@ -332,40 +357,51 @@
                 piezas_totales = Math.floor(1000000 / (largo * ancho * alto));
             }
 
-            // 2. ENVÍO X PROD M3
+            // 2. ENVÍO X PROD M3 - 4 decimales
             const envio_x_prod = piezas_totales > 0? precio_flete / piezas_totales : 0;
 
-            // 3. PRODUCTO + ENVÍO DOMÉSTICO
-            const prod_env_dom = precio_usd + envio_dom;
+            // 3. COSTO DOCENA USD = PRECIO USD ART × 12 - PASO FUNDAMENTAL
+            const costo_docena = precio_usd * 12;
 
-            // 4. 15% COMISIÓN
+            // 4. PRODUCTO + ENVÍO DOMÉSTICO = COSTO DOCENA + ENVÍO DOMÉSTICO
+            const prod_env_dom = costo_docena + envio_dom;
+
+            // 5. 15% COMISIÓN
             const comision = prod_env_dom * 0.15;
 
-            // 5. TOTAL
+            // 6. TOTAL USD
             const total = prod_env_dom + comision;
 
-            // 6. ENVÍO MARÍTIMO (es el envío x prod)
+            // 7. ENVÍO MARÍTIMO - 4 decimales
             const envio_maritimo = envio_x_prod;
 
-            // 7. TOTAL FINAL EN USD X 12
+            // 8. TOTAL FINAL USD X 12 - se calcula pero no se muestra
             const total_final_usd = (total + envio_maritimo) * 12;
 
-            // 8. PRECIO POR DOCENA en Bs
-            const precio_docena = total_final_usd * dolar_bob;
+            // 9. PRECIO POR DOCENA en Bs
+            const precio_docena_bs = total_final_usd * dolar_bob;
 
-            // 9. PRECIO POR UNIDAD en Bs
-            const precio_unidad = precio_docena / 12;
+            // 10. PRECIO POR UNIDAD en Bs
+            const precio_unidad_bs = precio_docena_bs / 12;
 
-            // Actualizar inputs
+            // 11. PRECIO POR DOCENA en ARS
+            const precio_docena_ars = total_final_usd * dolar_ars;
+
+            // 12. PRECIO POR UNIDAD en ARS
+            const precio_unidad_ars = precio_docena_ars / 12;
+
+            // Actualizar inputs con símbolo de moneda
             document.getElementById(`calc_${id}_piezas_totales`).value = piezas_totales;
-            document.getElementById(`calc_${id}_envio_x_prod`).value = formatoNum(envio_x_prod, 2);
-            document.getElementById(`calc_${id}_prod_env_dom`).value = formatoNum(prod_env_dom);
-            document.getElementById(`calc_${id}_comision`).value = formatoNum(comision);
-            document.getElementById(`calc_${id}_total`).value = formatoNum(total);
-            document.getElementById(`calc_${id}_envio_maritimo`).value = formatoNum(envio_maritimo, 2);
-            document.getElementById(`calc_${id}_total_final_usd`).value = formatoNum(total_final_usd);
-            document.getElementById(`calc_${id}_precio_docena`).value = formatoNum(precio_docena_bs);
-            document.getElementById(`calc_${id}_precio_unidad`).value = formatoNum(precio_unidad_bs);
+            document.getElementById(`calc_${id}_envio_x_prod`).value = formatoMoneda(envio_x_prod, 4, '$');
+            document.getElementById(`calc_${id}_costo_docena`).value = formatoMoneda(costo_docena, 2, '$');
+            document.getElementById(`calc_${id}_prod_env_dom`).value = formatoMoneda(prod_env_dom, 2, '$');
+            document.getElementById(`calc_${id}_comision`).value = formatoMoneda(comision, 2, '$');
+            document.getElementById(`calc_${id}_total`).value = formatoMoneda(total, 2, '$');
+            document.getElementById(`calc_${id}_envio_maritimo`).value = formatoMoneda(envio_maritimo, 4, '$');
+            document.getElementById(`calc_${id}_precio_docena`).value = formatoMoneda(precio_docena_bs, 2, 'Bs');
+            document.getElementById(`calc_${id}_precio_unidad`).value = formatoMoneda(precio_unidad_bs, 2, 'Bs');
+            document.getElementById(`calc_${id}_precio_docena_ars`).value = formatoMoneda(precio_docena_ars, 2, '$');
+            document.getElementById(`calc_${id}_precio_unidad_ars`).value = formatoMoneda(precio_unidad_ars, 2, '$');
         }
 
         function renderizarTabla() {
@@ -375,25 +411,26 @@
             productos.forEach(prod => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td class="col-med"><input type="text" value="${prod.largo || ''}" oninput="actualizarCampo(${prod.id}, 'largo', this.value)"></td>
-                    <td class="col-med"><input type="text" value="${prod.ancho || ''}" oninput="actualizarCampo(${prod.id}, 'ancho', this.value)"></td>
-                    <td class="col-med"><input type="text" value="${prod.alto || ''}" oninput="actualizarCampo(${prod.id}, 'alto', this.value)"></td>
+                    <td class="col-med"><input type="text" value="${prod.largo || ''}" oninput="actualizarCampo('${prod.id}', 'largo', this.value)"></td>
+                    <td class="col-med"><input type="text" value="${prod.ancho || ''}" oninput="actualizarCampo('${prod.id}', 'ancho', this.value)"></td>
+                    <td class="col-med"><input type="text" value="${prod.alto || ''}" oninput="actualizarCampo('${prod.id}', 'alto', this.value)"></td>
                     <td class="col-calculo"><input id="calc_${prod.id}_piezas_totales" type="text" readonly></td>
-                    <td class="col-med"><input type="text" value="${prod.precio_flete || '430,00'}" oninput="actualizarCampo(${prod.id}, 'precio_flete', this.value)"></td>
-                    <td class="col-calculo"><input id="calc_${prod.id}_envio_x_prod" type="text" readonly></td>
-                    <td class="col-desc"><input type="text" value="${prod.descripcion || ''}" oninput="actualizarCampo(${prod.id}, 'descripcion', this.value)"></td>
-                    <td class="col-link"><input type="text" value="${prod.link || ''}" oninput="actualizarCampo(${prod.id}, 'link', this.value)"></td>
-                    <td class="col-med"><input type="text" value="${prod.precio_usd || ''}" oninput="actualizarCampo(${prod.id}, 'precio_usd', this.value)"></td>
-                    <td class="col-med"><input type="text" value="${prod.envio_dom || ''}" oninput="actualizarCampo(${prod.id}, 'envio_dom', this.value)"></td>
-                    <td class="col-med"><input type="text" value="${prod.docena || ''}" oninput="actualizarCampo(${prod.id}, 'docena', this.value)"></td>
+                    <td class="col-med"><input type="text" value="${prod.precio_flete || '430,00'}" oninput="actualizarCampo('${prod.id}', 'precio_flete', this.value)"></td>
+                    <td class="col-envio-maritimo"><input id="calc_${prod.id}_envio_x_prod" type="text" readonly></td>
+                    <td class="col-desc"><input type="text" value="${prod.descripcion || ''}" oninput="actualizarCampo('${prod.id}', 'descripcion', this.value)"></td>
+                    <td class="col-link"><input type="text" value="${prod.link || ''}" oninput="actualizarCampo('${prod.id}', 'link', this.value)"></td>
+                    <td class="col-paso-fundamental"><input type="text" value="${prod.precio_usd || ''}" oninput="actualizarCampo('${prod.id}', 'precio_usd', this.value)"></td>
+                    <td class="col-paso-fundamental"><input id="calc_${prod.id}_costo_docena" type="text" readonly></td>
+                    <td class="col-paso-fundamental"><input type="text" value="${prod.envio_dom || ''}" oninput="actualizarCampo('${prod.id}', 'envio_dom', this.value)"></td>
                     <td class="col-calculo"><input id="calc_${prod.id}_prod_env_dom" type="text" readonly></td>
                     <td class="col-calculo"><input id="calc_${prod.id}_comision" type="text" readonly></td>
                     <td class="col-calculo"><input id="calc_${prod.id}_total" type="text" readonly></td>
-                    <td class="col-calculo"><input id="calc_${prod.id}_envio_maritimo" type="text" readonly></td>
-                    <td class="col-calculo col-usd"><input id="calc_${prod.id}_total_final_usd" type="text" readonly></td>
+                    <td class="col-envio-maritimo"><input id="calc_${prod.id}_envio_maritimo" type="text" readonly></td>
                     <td class="col-calculo col-bs"><input id="calc_${prod.id}_precio_docena" type="text" readonly></td>
                     <td class="col-calculo col-bs"><input id="calc_${prod.id}_precio_unidad" type="text" readonly></td>
-                    <td class="col-acciones"><button class="btn-rojo btn-mini" onclick="eliminarFila(${prod.id})">X</button></td>
+                    <td class="col-calculo col-ars"><input id="calc_${prod.id}_precio_docena_ars" type="text" readonly></td>
+                    <td class="col-calculo col-ars"><input id="calc_${prod.id}_precio_unidad_ars" type="text" readonly></td>
+                    <td class="col-acciones"><button class="btn-rojo btn-mini" onclick="eliminarFila('${prod.id}')">X</button></td>
                 `;
                 tbody.appendChild(tr);
                 calcularFila(prod.id);
@@ -429,13 +466,14 @@
 
         function exportarExcel() {
             const dolar_bob = parsearNum(document.getElementById('dolar_bob').value);
+            const dolar_ars = parsearNum(document.getElementById('dolar_ars').value);
 
             const data = [
                 ['ANITAS STORE - CALCULADORA IMPORTACIÓN'],
                 ['Fecha:', new Date().toLocaleDateString('es-BO')],
-                ['Dólar Bob:', dolar_bob],
+                ['Dólar Bob:', dolar_bob, 'Dólar ARS:', dolar_ars],
                 [],
-                ['LARGO(cm)', 'ANCHO(cm)', 'ALTO(cm)', 'PIEZAS TOTALES', 'PRECIO FLETE USD', 'ENVÍO X PROD M3', 'DESCRIPCIÓN', 'LINK', 'PRECIO USD ART', 'ENVÍO DOMÉSTICO', 'DOCENA', 'PROD+ENV DOM', '15% COMISIÓN', 'TOTAL', 'ENVÍO MARÍTIMO', 'TOTAL FINAL USDX12', 'PRECIO/DOCENA', 'PRECIO/UNIDAD']
+                ['LARGO(cm)', 'ANCHO(cm)', 'ALTO(cm)', 'PIEZAS TOTALES', 'PRECIO FLETE USD', 'ENVÍO X PROD M3', 'DESCRIPCIÓN', 'LINK', 'PRECIO USD ART', 'COSTO DOCENA USD', 'ENVÍO DOMÉSTICO USD', 'PROD+ENV DOM USD', '15% COMISIÓN USD', 'TOTAL USD', 'ENVÍO MARÍTIMO USD', 'PRECIO/DOCENA Bs', 'PRECIO/UNIDAD Bs', 'PRECIO/DOC ARS', 'PRECIO/UNID ARS']
             ];
 
             productos.forEach(p => {
@@ -448,19 +486,23 @@
 
                 const piezas_totales = (largo > 0 && ancho > 0 && alto > 0)? Math.floor(1000000 / (largo * ancho * alto)) : 0;
                 const envio_x_prod = piezas_totales > 0? precio_flete / piezas_totales : 0;
-                const prod_env_dom = precio_usd + envio_dom;
+                const costo_docena = precio_usd * 12;
+                const prod_env_dom = costo_docena + envio_dom;
                 const comision = prod_env_dom * 0.15;
                 const total = prod_env_dom + comision;
                 const envio_maritimo = envio_x_prod;
                 const total_final_usd = (total + envio_maritimo) * 12;
-                const precio_docena = total_final_usd * dolar_bob;
-                const precio_unidad = precio_docena / 12;
+                const precio_docena_bs = total_final_usd * dolar_bob;
+                const precio_unidad_bs = precio_docena_bs / 12;
+                const precio_docena_ars = total_final_usd * dolar_ars;
+                const precio_unidad_ars = precio_docena_ars / 12;
 
                 data.push([
-                    p.largo || '', p.ancho || '', p.alto || '', piezas_totales, p.precio_flete || '', formatoNum(envio_x_prod, 2),
-                    p.descripcion || '', p.link || '', p.precio_usd || '', p.envio_dom || '', p.docena || '',
-                    formatoNum(prod_env_dom), formatoNum(comision), formatoNum(total), formatoNum(envio_maritimo, 2),
-                    formatoNum(total_final_usd), formatoNum(precio_docena), formatoNum(precio_unidad)
+                    p.largo || '', p.ancho || '', p.alto || '', piezas_totales, p.precio_flete || '', formatoMoneda(envio_x_prod, 4, '$'),
+                    p.descripcion || '', p.link || '', p.precio_usd || '', formatoMoneda(costo_docena, 2, '$'), p.envio_dom || '',
+                    formatoMoneda(prod_env_dom, 2, '$'), formatoMoneda(comision, 2, '$'), formatoMoneda(total, 2, '$'), formatoMoneda(envio_maritimo, 4, '$'),
+                    formatoMoneda(precio_docena_bs, 2, 'Bs'), formatoMoneda(precio_unidad_bs, 2, 'Bs'),
+                    formatoMoneda(precio_docena_ars, 2, '$'), formatoMoneda(precio_unidad_ars, 2, '$')
                 ]);
             });
 
