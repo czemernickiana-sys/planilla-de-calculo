@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANITAS STORE - Planilla Importación</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #fff1f2;
+            padding: 20px;
+        }
+       .container {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+       .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid #fbcfe8;
+            overflow-x: auto;
+        }
+        h1 {
+            color: #db2777;
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #1f2937;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+       .config-box {
+            background: #fce7f3;
+            padding: 16px;
+            border-radius: 8px;
+            border: 2px solid #f9a8d4;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+       .config-item label {
+            display: block;
+            font-size: 12px;
+            color: #831843;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #f9a8d4;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #ec4899;
+        }
+        input[readonly] {
+            background: #fdf2f8;
+            color: #be185d;
+            font-weight: bold;
+        }
+        button {
+            background: #ec4899;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #db2777;
+        }
+       .btn-verde {
+            background: #22c55e;
+        }
+       .btn-verde:hover {
+            background: #16a34a;
+        }
+       .btn-azul {
+            background: #3b82f6;
+        }
+       .btn-azul:hover {
+            background: #2563eb;
+        }
+       .btn-rojo {
+            background: #ef4444;
+        }
+       .btn-rojo:hover {
+            background: #dc2626;
+        }
+       .btn-gris {
+            background: #6b7280;
+        }
+       .btn-gris:hover {
+            background: #4b5563;
+        }
+       .botones-accion {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            min-width: 2400px;
+        }
+        th {
+            background: #f9a8d4;
+            color: #831843;
+            padding: 8px 4px;
+            border: 1px solid #fbcfe8;
+            font-weight: bold;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        td {
+            border: 1px solid #fbcfe8;
+            padding: 2px;
+            text-align: center;
+        }
+        td input {
+            border: none;
+            margin: 0;
+            padding: 6px 4px;
+            height: 32px;
+            text-align: center;
+            background: transparent;
+        }
+        td input:focus {
+            background: #fef3c7;
+        }
+       .col-calculo {
+            background: #fdf2f8;
+        }
+       .col-calculo input {
+            font-weight: bold;
+            color: #be185d;
+        }
+       .col-usd {
+            background: #e0f2fe;
+        }
+       .col-bs {
+            background: #dcfce7;
+        }
+       .col-ars {
+            background: #fef3c7;
+        }
+       .col-foto {
+            width: 80px;
+        }
+       .col-link {
+            width: 120px;
+        }
+       .col-acciones {
+            width: 80px;
+        }
+       .mini-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+       .btn-mini {
+            padding: 4px 8px;
+            font-size: 11px;
+            margin: 2px;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 8px;
+            }
+            h1 {
+                font-size: 28px;
+            }
+           .card {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ANITAS STORE - CALCULADORA IMPORTACIÓN</h1>
+
+        <div class="card">
+            <h2>Configuración Global</h2>
+            <div class="config-box">
+                <div class="config-item">
+                    <label>PRECIO DEL DÓLAR BOLIVIA</label>
+                    <input id="dolar_bol" type="text" value="9,54" oninput="recalcularTodo(); guardarConfig()">
+                </div>
+                <div class="config-item">
+                    <label>PRECIO DEL DÓLAR ARGENTINA</label>
+                    <input id="dolar_ars" type="text" value="1500,00" oninput="recalcularTodo(); guardarConfig()">
+                </div>
+                <div class="config-item">
+                    <label>PRECIO DEL FLETE USD (por m³)</label>
+                    <input id="precio_flete" type="text" value="430,00" oninput="recalcularTodo(); guardarConfig()">
+                </div>
+                <div class="config-item">
+                    <label>COMISIÓN %</label>
+                    <input id="comision" type="text" value="15,00" oninput="recalcularTodo(); guardarConfig()">
+                </div>
+            </div>
+
+            <div class="botones-accion">
+                <button class="btn-verde" onclick="agregarFila()">+ Agregar Producto</button>
+                <button class="btn-azul" onclick="exportarExcel()">📊 Exportar Excel</button>
+                <button class="btn-azul" onclick="copiarTablaWhatsApp()">📱 Copiar WhatsApp</button>
+                <button class="btn-gris" onclick="guardarTodo()">💾 Guardar Todo</button>
+                <button class="btn-rojo" onclick="limpiarTodo()">🗑️ Limpiar Todo</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Planilla de Productos</h2>
+            <table id="tabla-productos">
+                <thead>
+                    <tr>
+                        <th class="col-foto">FOTO</th>
+                        <th>PRECIO USD ART</th>
+                        <th>ENVÍO DOMÉSTICO</th>
+                        <th>DOCENA</th>
+                        <th class="col-calculo">PROD + ENV DOM</th>
+                        <th class="col-calculo">15% COMISIÓN</th>
+                        <th class="col-calculo">PROD + COMISIÓN</th>
+                        <th class="col-calculo">ENVÍO MARÍTIMO</th>
+                        <th class="col-calculo">PRECIO/DOCENA</th>
+                        <th class="col-calculo">PRECIO/UNIDAD</th>
+                        <th class="col-calculo">PRECIO DOC AR</th>
+                        <th class="col-calculo">PRECIO UNID AR</th>
+                        <th class="col-link">LINK</th>
+                        <th>LARGO (cm)</th>
+                        <th>ANCHO (cm)</th>
+                        <th>ALTO (cm)</th>
+                        <th class="col-calculo">PIEZAS TOTALES</th>
+                        <th class="col-calculo">COSTO FLETE/PROD</th>
+                        <th class="col-acciones">ACCIÓN</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-productos">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let productos = [];
+        const STORAGE_KEY = 'anitas_productos_v2';
+        const CONFIG_KEY = 'anitas_config_v2';
+
+        window.onload = function() {
+            cargarConfig();
+            cargarProductos();
+            if (productos.length === 0) {
+                agregarFila();
+            }
+        };
+
+        function guardarConfig() {
+            const config = {
+                dolar_bol: document.getElementById('dolar_bol').value,
+                dolar_ars: document.getElementById('dolar_ars').value,
+                precio_flete: document.getElementById('precio_flete').value,
+                comision: document.getElementById('comision').value
+            };
+            localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
+        }
+
+        function cargarConfig() {
+            const config = JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}');
+            if (config.dolar_bol) document.getElementById('dolar_bol').value = config.dolar_bol;
+            if (config.dolar_ars) document.getElementById('dolar_ars').value = config.dolar_ars;
+            if (config.precio_flete) document.getElementById('precio_flete').value = config.precio_flete;
+            if (config.comision) document.getElementById('comision').value = config.comision;
+        }
+
+        function parsearNum(valor) {
+            if (!valor) return 0;
+            return parseFloat(valor.toString().replace(',', '.')) || 0;
+        }
+
+        function formatoNum(num, decimales = 2) {
+            return num.toFixed(decimales).replace('.', ',');
+        }
+
+        function agregarFila(datos = null) {
+            const id = Date.now() + Math.random();
+            const producto = datos || {
+                id: id,
+                foto: '',
+                precio_usd: '',
+                envio_dom: '',
+                docena: '',
+                link: '',
+                largo: '',
+                ancho: '',
+                alto: ''
+            };
+            productos.push(producto);
+            renderizarTabla();
+            guardarTodo();
+        }
+
+        function eliminarFila(id) {
+            if (confirm('¿Eliminar este producto?')) {
+                productos = productos.filter(p => p.id!== id);
+                renderizarTabla();
+                guardarTodo();
+            }
+        }
+
+        function actualizarCampo(id, campo, valor) {
+            const prod = productos.find(p => p.id === id);
+            if (prod) {
+                prod[campo] = valor;
+                calcularFila(id);
+                guardarTodo();
+            }
+        }
+
+        function calcularFila(id) {
+            const prod = productos.find(p => p.id === id);
+            if (!prod) return;
+
+            const precio_usd = parsearNum(prod.precio_usd);
+            const envio_dom = parsearNum(prod.envio_dom);
+            const docena = parsearNum(prod.docena);
+            const largo = parsearNum(prod.largo);
+            const ancho = parsearNum(prod.ancho);
+            const alto = parsearNum(prod.alto);
+            const precio_flete = parsearNum(document.getElementById('precio_flete').value);
+            const comision = parsearNum(document.getElementById('comision').value);
+            const dolar_bol = parsearNum(document.getElementById('dolar_bol').value);
+            const dolar_ars = parsearNum(document.getElementById('dolar_ars').value);
+
+            // Cálculos
+            const prod_env_dom = precio_usd + envio_dom;
+            const monto_comision = prod_env_dom * (comision / 100);
+            const prod_comision = prod_env_dom + monto_comision;
+
+            // Piezas totales por m³
+            let piezas_totales = 0;
+            if (largo > 0 && ancho > 0 && alto > 0) {
+                const volumen = largo * ancho * alto;
+                piezas_totales = Math.floor(1000000 / volumen);
+            }
+
+            // Costo flete por producto
+            const costo_flete_prod = piezas_totales > 0? precio_flete / piezas_totales : 0;
+
+            // Precio por docena y unidad en Bs
+            const precio_docena_bs = (prod_comision + costo_flete_prod) * dolar_bol;
+            const precio_unidad_bs = precio_docena_bs / 12;
+
+            // Precio por docena y unidad en ARS
+            const precio_doc_ars = (prod_comision + costo_flete_prod) * dolar_ars;
+            const precio_unid_ars = precio_doc_ars / 12;
+
+            // Actualizar inputs calculados
+            document.getElementById(`calc_${id}_prod_env_dom`).value = formatoNum(prod_env_dom);
+            document.getElementById(`calc_${id}_comision`).value = formatoNum(monto_comision);
+            document.getElementById(`calc_${id}_prod_comision`).value = formatoNum(prod_comision);
+            document.getElementById(`calc_${id}_envio_mar`).value = formatoNum(costo_flete_prod, 4);
+            document.getElementById(`calc_${id}_precio_doc`).value = formatoNum(precio_docena_bs);
+            document.getElementById(`calc_${id}_precio_uni`).value = formatoNum(precio_unidad_bs);
+            document.getElementById(`calc_${id}_precio_doc_ars`).value = formatoNum(precio_doc_ars);
+            document.getElementById(`calc_${id}_precio_uni_ars`).value = formatoNum(precio_unid_ars);
+            document.getElementById(`calc_${id}_piezas_totales`).value = piezas_totales;
+            document.getElementById(`calc_${id}_costo_flete_prod`).value = formatoNum(costo_flete_prod, 4);
+        }
+
+        function renderizarTabla() {
+            const tbody = document.getElementById('tbody-productos');
+            tbody.innerHTML = '';
+
+            productos.forEach(prod => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="col-foto">
+                        ${prod.foto? `<img src="${prod.foto}" class="mini-img" onerror="this.style.display='none'" onclick="window.open('${prod.foto}', '_blank')">` : ''}
+                        <input type="text" placeholder="URL foto" value="${prod.foto || ''}" oninput="actualizarCampo(${prod.id}, 'foto', this.value)" style="font-size:10px;">
+                    </td>
+                    <td><input type="text" value="${prod.precio_usd || ''}" oninput="actualizarCampo(${prod.id}, 'precio_usd', this.value)"></td>
+                    <td><input type="text" value="${prod.envio_dom || ''}" oninput="actualizarCampo(${prod.id}, 'envio_dom', this.value)"></td>
+                    <td><input type="text" value="${prod.docena || ''}" oninput="actualizarCampo(${prod.id}, 'docena', this.value)"></td>
+                    <td class="col-calculo"><input id="calc_${prod.id}_prod_env_dom" type="text" readonly></td>
+                    <td class="col-calculo"><input id="calc_${prod.id}_comision" type="text" readonly></td>
+                    <td class="col-calculo"><input id="calc_${prod.id}_prod_comision" type="text" readonly></td>
+                    <td class="col-calculo"><input id="calc_${prod.id}_envio_mar" type="text" readonly></td>
+                    <td class="col-calculo col-bs"><input id="calc_${prod.id}_precio_doc" type="text" readonly></td>
+                    <td class="col-calculo col-bs"><input id="calc_${prod.id}_precio_uni" type="text" readonly></td>
+                    <td class="col-calculo col-ars"><input id="calc_${prod.id}_precio_doc_ars" type="text" readonly></td>
+                    <td class="col-calculo col-ars"><input id="calc_${prod.id}_precio_uni_ars" type="text" readonly></td>
+                    <td class="col-link"><input type="text" value="${prod.link || ''}" oninput="actualizarCampo(${prod.id}, 'link', this.value)" style="font-size:10px;"></td>
+                    <td><input type="text" value="${prod.largo || ''}" oninput="actualizarCampo(${prod.id}, 'largo', this.value)"></td>
+                    <td><input type="text" value="${prod.ancho || ''}" oninput="actualizarCampo(${prod.id}, 'ancho', this.value)"></td>
+                    <td><input type="text" value="${prod.alto || ''}" oninput="actualizarCampo(${prod.id}, 'alto', this.value)"></td>
+                    <td class="col-calculo"><input id="calc_${prod.id}_piezas_totales" type="text" readonly></td>
+                    <td class="col-calculo"><input id="calc_${prod.id}_costo_flete_prod" type="text" readonly></td>
+                    <td class="col-acciones"><button class="btn-rojo btn-mini" onclick="eliminarFila(${prod.id})">X</button></td>
+                `;
+                tbody.appendChild(tr);
+                calcularFila(prod.id);
+            });
+        }
+
+        function recalcularTodo() {
+            productos.forEach(p => calcularFila(p.id));
+            guardarConfig();
+        }
+
+        function guardarTodo() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(productos));
+            guardarConfig();
+        }
+
+        function cargarProductos() {
+            const data = localStorage.getItem(STORAGE_KEY);
+            if (data) {
+                productos = JSON.parse(data);
+                renderizarTabla();
+            }
+        }
+
+        function limpiarTodo() {
+            if (confirm('¿Seguro? Esto borra TODOS los productos guardados.')) {
+                productos = [];
+                localStorage.removeItem(STORAGE_KEY);
+                renderizarTabla();
+                agregarFila();
+            }
+        }
+
+        function exportarExcel() {
+            const dolar_bol = parsearNum(document.getElementById('dolar_bol').value);
+            const dolar_ars = parsearNum(document.getElementById('dolar_ars').value);
+            const precio_flete = parsearNum(document.getElementById('precio_flete').value);
+            const comision = parsearNum(document.getElementById('comision').value);
+
+            const data = [
+                ['ANITAS STORE - PLANILLA IMPORTACIÓN'],
+                ['Fecha:', new Date().toLocaleDateString('es-BO')],
+                [],
+                ['CONFIGURACIÓN'],
+                ['Dólar Bolivia:', dolar_bol],
+                ['Dólar Argentina:', dolar_ars],
+                ['Precio Flete USD:', precio_flete],
+                ['Comisión %:', comision],
+                [],
+                ['FOTO', 'PRECIO USD ART', 'ENVÍO DOMÉSTICO', 'DOCENA', 'PROD+ENV DOM', '15% COMISIÓN', 'PROD+COMISIÓN', 'ENVÍO MARÍTIMO', 'PRECIO/DOCENA', 'PRECIO/UNIDAD', 'PRECIO DOC AR', 'PRECIO UNID AR', 'LINK', 'LARGO', 'ANCHO', 'ALTO', 'PIEZAS TOTALES', 'COSTO FLETE/PROD']
+            ];
+
+            productos.forEach(p => {
+                const precio_usd = parsearNum(p.precio_usd);
+                const envio_dom = parsearNum(p.envio_dom);
+                const largo = parsearNum(p.largo);
+                const ancho = parsearNum(p.ancho);
+                const alto = parsearNum(p.alto);
+
+                const prod_env_dom = precio_usd + envio_dom;
+                const monto_comision = prod_env_dom * (comision / 100);
+                const prod_comision = prod_env_dom + monto_comision;
+
+                let piezas_totales = 0;
+                if (largo > 0 && ancho > 0 && alto > 0) {
+                    piezas_totales = Math.floor(1000000 / (largo * ancho * alto));
+                }
+
+                const costo_flete_prod = piezas_totales > 0? precio_flete / piezas_totales : 0;
+                const precio_docena_bs = (prod_comision + costo_flete_prod) * dolar_bol;
+                const precio_unidad_bs = precio_docena_bs / 12;
+                const precio_doc_ars = (prod_comision + costo_flete_prod) * dolar_ars;
+                const precio_unid_ars = precio_doc_ars / 12;
+
+                data.push([
+                    p.foto || '',
+                    p.precio_usd || '',
+                    p.envio_dom || '',
+                    p.docena || '',
+                    formatoNum(prod_env_dom),
+                    formatoNum(monto_comision),
+                    formatoNum(prod_comision),
+                    formatoNum(costo_flete_prod, 4),
+                    formatoNum(precio_docena_bs),
+                    formatoNum(precio_unidad_bs),
+                    formatoNum(precio_doc_ars),
+                    formatoNum(precio_unid_ars),
+                    p.link || '',
+                    p.largo || '',
+                    p.ancho || '',
+                    p.alto || '',
+                    piezas_totales,
+                    formatoNum(costo_flete_prod, 4)
+                ]);
+            });
+
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Productos');
+            XLSX.writeFile(wb, `ANITAS_STORE_${new Date().toISOString().split('T')[0]}.xlsx`);
+        }
+
+        function exportarPDF() {
+            const { jsPDF } = window.jspdf;
+            const elemento = document.getElementById('contenido-pdf');
+
+            html2canvas(elemento, { scale: 2 }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('l', 'mm', 'a4');
+                const imgWidth = 297;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                pdf.save(`ANITAS_STORE_${new Date().toISOString().split('T')[0]}.pdf`);
+            });
+        }
+
+        function copiarTablaWhatsApp() {
+            let texto = '*ANITAS STORE - LISTA DE PRECIOS*\n\n';
+            productos.forEach((p, i) => {
+                const precio_unidad_bs = document.getElementById(`calc_${p.id}_precio_uni`)?.value || '0';
+                texto += `${i+1}. ${p.nombre || 'Sin nombre'}\n`;
+                texto += ` 💵 USD: $${p.precio_usd || '0'}\n`;
+                texto += ` 💰 Bs: ${precio_unidad_bs}\n`;
+                if (p.link) texto += ` 🔗 ${p.link}\n`;
+                texto += '\n';
+            });
+            navigator.clipboard.writeText(texto);
+            alert('¡Copiado! Pegalo en WhatsApp');
+        }
+    </script>
+</body>
+</html>
