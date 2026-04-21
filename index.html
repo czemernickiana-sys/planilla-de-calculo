@@ -30,6 +30,12 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             border: 1px solid #fbcfe8;
             overflow-x: auto;
+            transition: transform 0.3s ease;
+        }
+       .card.vista-completa {
+            transform: scale(0.75);
+            transform-origin: top left;
+            width: 133.33%;
         }
         h1 {
             color: #db2777;
@@ -118,6 +124,12 @@
         }
 .btn-naranja:hover {
             background: #ea580c;
+        }
+.btn-morado {
+            background: #a855f7;
+        }
+.btn-morado:hover {
+            background: #9333ea;
         }
 .botones-accion {
             display: flex;
@@ -303,6 +315,7 @@
                 </div>
                 <div class="botones-accion">
                     <button class="btn-verde" onclick="agregarFila()">+ Agregar Producto</button>
+                    <button class="btn-morado" onclick="toggleVistaCompleta()">👁️ Vista Completa</button>
                     <button class="btn-azul" onclick="exportarExcel()">📊 Exportar Excel</button>
                     <button class="btn-naranja" onclick="exportarPDF()">📄 Guardar PDF</button>
                     <button class="btn-azul" onclick="copiarWhatsApp()">📱 Copiar WhatsApp</button>
@@ -311,7 +324,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" id="card-tabla">
             <table id="tabla-productos">
                 <thead>
                     <tr>
@@ -347,8 +360,9 @@
 
     <script>
         let productos = [];
-        const STORAGE_KEY = 'anitas_calc_v16';
-        const CONFIG_KEY = 'anitas_config_v16';
+        let vistaCompletaActiva = false;
+        const STORAGE_KEY = 'anitas_calc_v17';
+        const CONFIG_KEY = 'anitas_config_v17';
 
         window.onload = function() {
             cargarConfig();
@@ -357,6 +371,18 @@
                 agregarFila();
             }
         };
+
+        function toggleVistaCompleta() {
+            const card = document.getElementById('card-tabla');
+            vistaCompletaActiva =!vistaCompletaActiva;
+            if (vistaCompletaActiva) {
+                card.classList.add('vista-completa');
+                event.target.textContent = '👁️ Vista Normal';
+            } else {
+                card.classList.remove('vista-completa');
+                event.target.textContent = '👁️ Vista Completa';
+            }
+        }
 
         function guardarConfig() {
             const config = {
@@ -400,6 +426,7 @@
                 alto: '',
                 precio_flete: '430,00',
                 descripcion: '',
+                link: '',
                 link2: '',
                 precio_usd: '',
                 envio_dom: ''
